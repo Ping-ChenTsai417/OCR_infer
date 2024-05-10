@@ -1,0 +1,84 @@
+Python interpreter
+C:\Users\PingChen\AppData\Local\anaconda3\envs\OCR_test\python.exe
+
+#解壓縮
+tar -xvf ch_PP-OCRv4_det_train.tar
+
+#ppocr v4
+# Generate .pth
+# detection v4
+# ch_PP-OCRv4_det
+python ./converter/ch_ppocr_v4_det_converter.py --yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_student.yml --src_model_path ch_PP-OCRv4_det_train_dir
+
+# ch_PP-OCRv4_server_det
+python ./converter/ch_ppocr_v4_det_server_converter.py --yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_teacher.yml --src_model_path ./models_v2.7/ppocrv4/ch_PP-OCRv4_det_server_train_dir
+
+# recognition v4
+# ch_PP-OCRv4_rec
+python ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml --src_model_path ch_PP-OCRv4_rec_train_dir
+# ch_PP-OCRv4_server_rec
+python ./converter/ch_ppocr_v4_rec_server_converter.py --yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec_hgnet.yml --src_model_path ch_PP-OCRv4_rec_server_train_dir
+---------------------------------------------------------------
+#Inference
+
+# ppocrv4_det
+python ./tools/infer/predict_det.py --image_dir ./doc/imgs/00009282.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_student.yml
+
+
+# ppocrv4_rec
+python ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/ch/word_1.jpg --rec_model_path your_ch_ptocr_v4_rec_infer_path.pth --rec_yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml --rec_image_shape=3,48,320
+
+------------------------------------
+#文本检测、方向分类和文字识别串联推理
+# v4
+# other det-models: use --det_yaml_path
+# other rec-models: use --rec_char_dict_path, --rec_yaml_path and --rec_yaml_path
+
+python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_path your_ch_ptocr_v4_det_infer_path.pth --det_yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_student.yml --rec_image_shape 3,48,320 --rec_model_path your_ch_ptocr_v4_rec_infer_path.pth --rec_yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml
+------------------------------------
+#Check paddlepaddle version
+pip list | grep paddlepaddle
+paddlepaddle=2.1.0
+
+No need to install paddlepaddle for Torch model inference
+
+# ------- Paddle to Torch v4---------
+
+# prepare .pth for text detection using v4
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./converter/ch_ppocr_v4_det_converter.py --yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --src_model_path ch_PP-OCRv4_det_train
+
+# prepare .pth for text recognition using v4
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml --src_model_path ch_PP-OCRv4_rec_train
+
+# ------- Inference v4 ---------
+
+# text detection using ppocrv4_det
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_det.py --image_dir ./doc/imgs/00009282.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml
+
+# text recognition using ppocrv4_rec
+try 1:
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/ch/word_1.jpg --rec_model_path ch_ptocr_v4_rec_infer.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml --rec_image_shape=3,48,320
+
+try 2:
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/chinese_traditional/chinese_cht_1.png --rec_model_path ch_ptocr_v4_rec_infer.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml --rec_image_shape=3,48,320
+
+# ----------det, rec 串聯 Inference------------
+# v4
+# other det-models: use --det_yaml_path
+# other rec-models: use --rec_char_dict_path, --rec_yaml_path and --rec_yaml_path
+
+# 不使用方向分類器
+#try 1:
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_system.py --image_dir ./doc/imgs/Picture2.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --rec_model_path ch_ptocr_v4_rec_infer.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml
+
+#try 2:
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_system.py --image_dir ./doc/imgs/Invoice.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --rec_model_path ch_ptocr_v4_rec_infer.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml
+
+# 使用方向分類器
+#try 1:
+
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_system.py --image_dir ./doc/imgs/Picture2.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --rec_model_path ch_ptocr_v4_rec_infer.pth --cls_model_path your_cls_pth_path.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml --use_angle_cls true --cls_model_path ch_ptocr_mobile_v2.0_cls_infer.pth --vis_font_path ./doc/fonts/cwming.ttf
+
+#try 2:
+
+C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_system.py --image_dir ./doc/imgs/00111002.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --rec_model_path ch_ptocr_v4_rec_infer.pth --cls_model_path your_cls_pth_path.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml --use_angle_cls true --cls_model_path ch_ptocr_mobile_v2.0_cls_infer.pth --vis_font_path ./doc/fonts/cwming.ttf

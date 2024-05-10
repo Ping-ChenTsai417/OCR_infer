@@ -1,0 +1,1 @@
+https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.7/configs/rec/PP-OCRv4

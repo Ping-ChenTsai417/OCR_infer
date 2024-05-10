@@ -1,0 +1,80 @@
+GPTprompt:
+read and memorize. Do not reply:
+self.net_config =NET_CONFIG_rec
+self.conv1 = ConvBNLayer(
+            in_channels=3,
+            out_channels=make_divisible(16 * scale),
+            kernel_size=3,
+            stride=2,
+            lr_mult=self.lr_mult_list[0])
+
+        self.blocks2 = nn.Sequential(*[
+            LCNetV3Block(
+                in_channels=make_divisible(in_c * scale),
+                out_channels=make_divisible(out_c * scale),
+                dw_size=k,
+                stride=s,
+                use_se=se,
+                conv_kxk_num=conv_kxk_num,
+                lr_mult=self.lr_mult_list[1],
+                lab_lr=lab_lr)
+            for i, (k, in_c, out_c, s, se
+                    ) in enumerate(self.net_config["blocks2"])
+        ])
+
+        self.blocks3 = nn.Sequential(*[
+            LCNetV3Block(
+                in_channels=make_divisible(in_c * scale),
+                out_channels=make_divisible(out_c * scale),
+                dw_size=k,
+                stride=s,
+                use_se=se,
+                conv_kxk_num=conv_kxk_num,
+                lr_mult=self.lr_mult_list[2],
+                lab_lr=lab_lr)
+            for i, (k, in_c, out_c, s, se
+                    ) in enumerate(self.net_config["blocks3"])
+        ])
+
+        self.blocks4 = nn.Sequential(*[
+            LCNetV3Block(
+                in_channels=make_divisible(in_c * scale),
+                out_channels=make_divisible(out_c * scale),
+                dw_size=k,
+                stride=s,
+                use_se=se,
+                conv_kxk_num=conv_kxk_num,
+                lr_mult=self.lr_mult_list[3],
+                lab_lr=lab_lr)
+            for i, (k, in_c, out_c, s, se
+                    ) in enumerate(self.net_config["blocks4"])
+        ])
+
+        self.blocks5 = nn.Sequential(*[
+            LCNetV3Block(
+                in_channels=make_divisible(in_c * scale),
+                out_channels=make_divisible(out_c * scale),
+                dw_size=k,
+                stride=s,
+                use_se=se,
+                conv_kxk_num=conv_kxk_num,
+                lr_mult=self.lr_mult_list[4],
+                lab_lr=lab_lr)
+            for i, (k, in_c, out_c, s, se
+                    ) in enumerate(self.net_config["blocks5"])
+        ])
+
+        self.blocks6 = nn.Sequential(*[
+            LCNetV3Block(
+                in_channels=make_divisible(in_c * scale),
+                out_channels=make_divisible(out_c * scale),
+                dw_size=k,
+                stride=s,
+                use_se=se,
+                conv_kxk_num=conv_kxk_num,
+                lr_mult=self.lr_mult_list[5],
+                lab_lr=lab_lr)
+            for i, (k, in_c, out_c, s, se
+                    ) in enumerate(self.net_config["blocks6"])
+        ])
+        self.out_channels = make_divisible(512 * scale)
