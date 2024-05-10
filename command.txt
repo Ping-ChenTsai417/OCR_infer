@@ -74,7 +74,7 @@ C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer
 #try 2:
 C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_system.py --image_dir ./doc/imgs/Invoice.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --rec_model_path ch_ptocr_v4_rec_infer.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml
 
-# 使用方向分類器
+# 使用方向分類器(需補充yml file)
 #try 1:
 
 C:/Users/PingChen/AppData/Local/anaconda3/envs/OCR_test/python.exe ./tools/infer/predict_system.py --image_dir ./doc/imgs/Picture2.jpg --det_model_path ch_ptocr_v4_det_infer.pth --det_yaml_path ./configs/det/ch_PP-OCRv4_det_student.yml --rec_model_path ch_ptocr_v4_rec_infer.pth --cls_model_path your_cls_pth_path.pth --rec_yaml_path ./configs/rec/ch_PP-OCRv4_rec.yml --use_angle_cls true --cls_model_path ch_ptocr_mobile_v2.0_cls_infer.pth --vis_font_path ./doc/fonts/cwming.ttf
